@@ -6,22 +6,34 @@ $dbname="student";
 $con=mysqli_connect($servername, $username, $password, $dbname);
 if(!$con)
 {
-    echo "Server not connected";
+    echo "Server not connected.<br>";
 }
 else
 {
-    echo "Server is connected";
+    echo "Server is connected.<br>";
 }
 
 if(!mysqli_select_db($con, $dbname))
 {
-    echo "Database not connected.";
+    echo "Database not connected.<br>";
 }
 
-$query = "INSERT INTO STUDENT(rollno, name, age, score) VALUES($Rollno, $Name, $Age, $Score)";
-if(mysqli_query($con,$query))
+if($_SERVER['REQUEST_METHOD'] == "POST")
 {
-    echo "Data inserted successfully";
-}
+    $rollno = $_POST['Rollno'];
+    $u_name = $_POST['Name'];
+    $score = $_POST['Score'];
+    $age = $_POST['Age'];
 
+    $query = "INSERT INTO student (rollno, sname, age, score) VALUES ('$rollno', '$u_name', '$age', '$score');";
+    if(mysqli_query($con,$query))
+    {
+        echo "Data inserted successfully.<br>";
+    }
+    else
+    {
+        echo "<br> ERROR: Could not able to execute $query. " . mysqli_error($con);
+    }
+}
+mysqli_close($con);
 ?>
